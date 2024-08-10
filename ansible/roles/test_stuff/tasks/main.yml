@@ -1,0 +1,14 @@
+---
+
+- name: "Create a directory"
+  file:
+    path: "/test_stuff"
+    state: directory
+  become: yes
+
+- name: "Create a file"
+  copy:
+    dest: "/test_stuff/test_file.txt"
+    content: |
+         "I will be great"
+  become: yes 

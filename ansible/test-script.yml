@@ -1,0 +1,7 @@
+---
+
+- name: Playbook for test script
+  hosts: infra
+  roles:
+   - test_stuff
+
