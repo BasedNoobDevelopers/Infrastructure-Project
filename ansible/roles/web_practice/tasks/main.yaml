@@ -2,3 +2,6 @@
 
 - name: Ping Server
   ping:
+
+- name: Make directory 
+  command: "mkdir newfolder/"
