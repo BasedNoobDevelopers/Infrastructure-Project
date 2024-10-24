@@ -2,7 +2,7 @@
 
 - name: Deploy a web application
   apt:
-    name: "{{ item }}"
+    name: {{ item }}
     state: installed
   with_items:
     - python
