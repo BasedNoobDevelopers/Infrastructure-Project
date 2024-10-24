@@ -5,12 +5,13 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - python2
+    - python3
     - python-setuptools
-    - python2-dev
-    - build-essential
     - python-pip
   become: yes
+
+- name: Install Deps
+  shell: sudo yum groupinstall "Development Tools"
 
 - name: Install MySQL database
   yum:
