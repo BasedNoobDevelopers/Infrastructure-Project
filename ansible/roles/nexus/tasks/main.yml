@@ -1,6 +1,6 @@
 ---
 - name: Install Required Packages
-  yum:
+  dnf:
     name:
       - java-11-openjdk
       - nano
