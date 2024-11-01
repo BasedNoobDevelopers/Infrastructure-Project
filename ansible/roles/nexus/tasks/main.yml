@@ -2,7 +2,7 @@
 - name: Install Required Packages
   dnf:
     name:
-      - java-11-openjdk
+      - java-11-amazon-corretto-devel
       - nano
     state: latest
   become: yes
@@ -13,7 +13,7 @@
     name: nexus
   become: yes
 
-- name: Download Java 11
+- name: Download Nexus
   unarchive:
     src: https://download.sonatype.com/nexus/3/nexus-3.70.1-02-java11-unix.tar.gz
     dest: /opt
