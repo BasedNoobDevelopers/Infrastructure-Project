@@ -1,0 +1,104 @@
+---
+- name: Install Required Packages
+  yum:
+    name:
+      - java-11-openjdk
+      - nano
+    state: latest
+  become: yes
+  
+
+- name: Create Nexus User
+  user:
+    name: nexus
+  become: yes
+
+- name: Download Java 11
+  unarchive:
+    src: https://download.sonatype.com/nexus/3/nexus-3.70.1-02-java11-unix.tar.gz
+    dest: /opt
+    remote_src: yes
+    owner: nexus
+    group: nexus
+  become: yes
+
+- name: Verify that nexus is already installed
+  stat:
+    path: /opt/nexus
+  register: nexus
+
+- name: Remove Nexus
+  file:
+    path: /opt/nexus
+    state: absent
+  when: nexus.stat.isdir is defined and nexus.stat.isdir
+  become: yes
+
+- name: Find Nexus Directory
+  find:
+    paths: /opt
+    recurse: no
+    file_type: directory
+    patterns: "nexus-*"
+  register: find_output
+
+- name: Move the Nexus folder
+  command: "mv --force {{ find_output.files[0].path }} /opt/nexus"
+  become: yes
+
+- name: Copy JVM options file
+  copy:
+    src: nexus.vmoptions
+    dest: /opt/nexus/bin/
+    owner: nexus
+    group: nexus
+    mode: "0755"
+  become: yes
+
+- name: Change owner of directory
+  file:
+    path: "{{ item  }}"
+    mode: "0755"
+    owner: nexus
+    group: nexus
+    recurse: yes
+  loop:
+    - "/opt/nexus"
+    - "/opt/sonatype-work"
+  become: yes
+
+- name: Copy service file
+  copy:
+    src: nexus.service
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: "0600"
+  become: yes
+
+- name: enable nexus service
+  systemd:
+    name: nexus
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Disable SELinux
+  command:
+    argv:
+      - setenforce
+      - "0"
+  become: yes
+
+- name: Disable SELinux on reboot
+  selinux:
+    state: disabled
+  become: yes
+
+- name: Set the hostname
+  hostname:
+    name: "{{ ansible_host }}"
+  become: yes
+
+- name: Update facts
+  setup:
