@@ -2,7 +2,7 @@
 - name: Install Required Packages
   dnf:
     name:
-      - java-11-amazon-corretto-devel
+      - java-17-amazon-corretto
       - nano
     state: latest
   become: yes
@@ -15,7 +15,7 @@
 
 - name: Download Nexus
   unarchive:
-    src: https://download.sonatype.com/nexus/3/nexus-3.70.3-01-java11-unix.tar.gz
+    src: https://download.sonatype.com/nexus/3/nexus-3.73.0-12-unix.tar.gz
     dest: /opt
     remote_src: yes
     owner: nexus
