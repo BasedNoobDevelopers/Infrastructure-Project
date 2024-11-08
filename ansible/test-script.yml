@@ -3,5 +3,5 @@
 - name: Playbook for test script
   hosts: web_app
   roles:
-   - web_practice
+   - test_stuff
 
