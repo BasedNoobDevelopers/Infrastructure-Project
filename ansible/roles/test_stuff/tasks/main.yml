@@ -10,5 +10,5 @@
   copy:
     dest: "/test_stuff/test_file.txt"
     content: |
-         "I will be great"
+         "Testing with Navid Yar"
   become: yes 
