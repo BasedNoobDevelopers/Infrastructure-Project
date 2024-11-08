@@ -1,7 +1,7 @@
 ---
 
 - name: Playbook for test script
-  hosts: web_app
+  hosts: test_apps
   roles:
    - test_stuff
 
